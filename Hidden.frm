@@ -1,0 +1,258 @@
+VERSION 5.00
+Begin VB.Form Form1 
+   Appearance      =   0  'Flat
+   BackColor       =   &H80000005&
+   BorderStyle     =   0  'None
+   Caption         =   "Make Date Folder"
+   ClientHeight    =   3600
+   ClientLeft      =   0
+   ClientTop       =   0
+   ClientWidth     =   4800
+   Icon            =   "Hidden.frx":0000
+   LinkTopic       =   "Form1"
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
+   Moveable        =   0   'False
+   NegotiateMenus  =   0   'False
+   ScaleHeight     =   3600
+   ScaleMode       =   0  'User
+   ScaleWidth      =   1
+   ShowInTaskbar   =   0   'False
+   StartUpPosition =   3  'Windows Default
+   Visible         =   0   'False
+End
+Attribute VB_Name = "Form1"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Private Sub form_load()
+'Code by Anthony Davis for DRMC
+'     6 6
+'      L
+'     \-/
+'
+Dim TheDate As Date
+Dim DayPart As String
+Dim MonthPart As String
+Dim Yearpart As String
+Dim TargetPath As String
+Dim SourcePath1 As String
+Dim SourcePath2 As String
+Dim SourcePath3 As String
+Dim TodaysDate As String
+Dim TargetDriveLetter As String
+Dim SourceDriveLetter As String
+Dim SourceFolder1 As String
+Dim SourceFolder2 As String
+Dim SourceFolder3 As String
+Dim SourceFileName1 As String
+Dim SourceFileName2 As String
+Dim SourceFileName3 As String
+Dim SourceFileName4 As String
+Dim SourceFileName5 As String
+Dim SourceFileName6 As String
+
+    ' Sets drive letters for Source and Target files
+SourceDriveLetter = "C:\"
+TargetDriveLetter = "C:\"
+
+    ' Sets source folders for files being moved
+SourceFolder1 = "test1"
+SourceFolder2 = "test2"
+SourceFolder3 = "test3"
+
+    ' Sets our source path for files being moved
+SourcePath1 = SourceDriveLetter & SourceFolder1
+SourcePath2 = SourceDriveLetter & SourceFolder2
+SourcePath3 = SourceDriveLetter & SourceFolder3
+
+    ' Gets the current date for the local machine
+TheDate = (Date)
+
+    'Breaks the current date apart in to seperate sections
+DayPart = DatePart("d", TheDate)
+MonthPart = DatePart("m", TheDate)
+Yearpart = DatePart("yyyy", TheDate)
+    
+    'Assembles the date in new format "MM-DD-YYYY"
+TodaysDate = MonthPart & "-" & DayPart & "-" & Yearpart
+
+    'Defines Target Path with the drive letter and the reformated date.
+TargetPath = TargetDriveLetter & TodaysDate
+
+    'Checks to see if Target folder already exists
+Set fs = CreateObject("Scripting.fileSystemObject")
+If fs.FolderExists(TargetPath) = True Then
+     
+'****** Start SourcePath1 w/o Create ********
+    'Equivelant XCOPY command
+    SourceFileName1 = Dir(SourcePath1 & "\*.*", vbDirectory)
+        ' Retrieve the first entry.
+
+    Do While SourceFileName1 <> "" ' Start the loop.
+        ' Ignore the current directory and the
+        ' encompassing directory.
+
+        If SourceFileName1 <> "." And SourceFileName1 <> ".." Then
+            ' Use bitwise comparison to make sure My
+            ' Name is a directory.
+
+            If (GetAttr(SourcePath1 & "\" & SourceFileName1) And vbDirectory) <> vbDirectory Then
+                'Copy the file
+                
+                FileCopy SourcePath1 & "\" & SourceFileName1, TargetPath & "\" & SourceFileName1
+            
+            End If
+                ' it represents a directory.
+        
+        End If
+        SourceFileName1 = Dir
+            ' Get Next entry.
+    Loop
+'******* End SourcePath1 w/o Create *******
+
+'******* Start SourcePath2 w/o Create ********
+    SourceFileName2 = Dir(SourcePath2 & "\*.*", vbDirectory)
+        ' Retrieve the first entry.
+
+    Do While SourceFileName2 <> "" ' Start the loop.
+        ' Ignore the current directory and the
+        ' encompassing directory.
+
+        If SourceFileName2 <> "." And SourceFileName2 <> ".." Then
+            ' Use bitwise comparison to make sure My
+            ' Name is a directory.
+
+            If (GetAttr(SourcePath2 & "\" & SourceFileName2) And vbDirectory) <> vbDirectory Then
+                'Copy the file
+                
+                FileCopy SourcePath2 & "\" & SourceFileName2, TargetPath & "\" & SourceFileName2
+            
+            End If
+                ' it represents a directory.
+        
+        End If
+        SourceFileName2 = Dir
+            ' Get Next entry.
+    Loop
+'******* End SourcePath2 w/o Create *******
+    
+'******* Start SourcePath3 w/o Create ********
+    SourceFileName3 = Dir(SourcePath3 & "\*.*", vbDirectory)
+        ' Retrieve the first entry.
+
+    Do While SourceFileName3 <> "" ' Start the loop.
+        ' Ignore the current directory and the
+        ' encompassing directory.
+
+        If SourceFileName3 <> "." And SourceFileName3 <> ".." Then
+            ' Use bitwise comparison to make sure My
+            ' Name is a directory.
+
+            If (GetAttr(SourcePath3 & "\" & SourceFileName3) And vbDirectory) <> vbDirectory Then
+                'Copy the file
+                
+                FileCopy SourcePath3 & "\" & SourceFileName3, TargetPath & "\" & SourceFileName3
+            
+            End If
+                ' it represents a directory.
+        
+        End If
+        SourceFileName3 = Dir
+            ' Get Next entry.
+    Loop
+    
+'*******End SourcePath3 w/o Create ********
+
+Else
+
+    ' If the Target folder doesn't exist this line creates it
+MkDir TargetPath
+  
+'****** Start SourcePath1 w/ Create ********
+    'Equivelant XCOPY command
+    SourceFileName4 = Dir(SourcePath1 & "\*.*", vbDirectory)
+        ' Retrieve the first entry.
+
+    Do While SourceFileName4 <> "" ' Start the loop.
+        ' Ignore the current directory and the
+        ' encompassing directory.
+
+        If SourceFileName4 <> "." And SourceFileName4 <> ".." Then
+            ' Use bitwise comparison to make sure My
+            ' Name is a directory.
+
+            If (GetAttr(SourcePath1 & "\" & SourceFileName4) And vbDirectory) <> vbDirectory Then
+                'Copy the file
+                
+                FileCopy SourcePath1 & "\" & SourceFileName4, TargetPath & "\" & SourceFileName4
+            
+            End If
+                ' it represents a directory.
+        
+        End If
+        SourceFileName4 = Dir
+            ' Get Next entry.
+    Loop
+'******* End SourcePath1 w/ Create *******
+
+'******* Start SourcePath2 w/ Create ********
+     SourceFileName5 = Dir(SourcePath2 & "\*.*", vbDirectory)
+        ' Retrieve the first entry.
+
+    Do While SourceFileName5 <> "" ' Start the loop.
+        ' Ignore the current directory and the
+        ' encompassing directory.
+
+        If SourceFileName5 <> "." And SourceFileName5 <> ".." Then
+            ' Use bitwise comparison to make sure My
+            ' Name is a directory.
+
+            If (GetAttr(SourcePath2 & "\" & SourceFileName5) And vbDirectory) <> vbDirectory Then
+                'Copy the file
+                
+                FileCopy SourcePath2 & "\" & SourceFileName5, TargetPath & "\" & SourceFileName5
+            
+            End If
+                ' it represents a directory.
+        
+        End If
+        SourceFileName5 = Dir
+            ' Get Next entry.
+    Loop
+'******* End SourcePath2 w/ Create *******
+    
+'******* Start SourcePath3 w/ Create ********
+    SourceFileName6 = Dir(SourcePath3 & "\*.*", vbDirectory)
+        ' Retrieve the first entry.
+
+    Do While SourceFileName6 <> "" ' Start the loop.
+        ' Ignore the current directory and the
+        ' encompassing directory.
+
+        If SourceFileName6 <> "." And SourceFileName6 <> ".." Then
+            ' Use bitwise comparison to make sure My
+            ' Name is a directory.
+
+            If (GetAttr(SourcePath3 & "\" & SourceFileName6) And vbDirectory) <> vbDirectory Then
+                'Copy the file
+                
+                FileCopy SourcePath3 & "\" & SourceFileName6, TargetPath & "\" & SourceFileName6
+            
+            End If
+                ' it represents a directory.
+        
+        End If
+        SourceFileName6 = Dir
+            ' Get Next entry.
+    Loop
+    Unload Me
+    
+'*******End SourcePath3 w/ Create ********
+
+End If
+    ' Ends Program
+Unload Me
+
+End Sub
